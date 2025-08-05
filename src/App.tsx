@@ -25,8 +25,7 @@ const App = () => {
 
   const handleModuleStart = (moduleTitle: string) => {
     setSelectedModule(moduleTitle);
-    // In a real app, this would navigate to the module content
-    alert(`Loading ${moduleTitle} module...`);
+    console.log(`Starting ${moduleTitle} module...`);
   };
 
   const ServiceCard = ({ icon: Icon, title, description, features }) => (
