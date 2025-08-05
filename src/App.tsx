@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { ArrowRight, Users, Target, Presentation, BookOpen, TrendingUp, MessageSquare, Ear, Search, Handshake, Award, Play, FileText, Download, Mail, Linkedin, Calendar, CheckCircle } from 'lucide-react';
+import { TrainingModule } from './components/TrainingModule';
+import { VideoPlayer } from './components/VideoPlayer';
+import { SalesPitchScript } from './components/SalesPitchScript';
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState('home');
+  const [selectedModule, setSelectedModule] = useState<string | null>(null);
+  const [showPitchScript, setShowPitchScript] = useState(false);
 
   const NavButton = ({ page, children, icon: Icon }) => (
     <button
@@ -18,31 +23,11 @@ const App = () => {
     </button>
   );
 
-  const TrainingModule = ({ icon: Icon, title, description, level, duration }) => (
-    <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-blue-200">
-      <div className="flex items-start justify-between mb-4">
-        <div className="p-3 bg-blue-100 rounded-lg">
-          <Icon className="text-blue-600" size={24} />
-        </div>
-        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-          level === 'Beginner' ? 'bg-green-100 text-green-700' :
-          level === 'Intermediate' ? 'bg-yellow-100 text-yellow-700' :
-          'bg-red-100 text-red-700'
-        }`}>
-          {level}
-        </span>
-      </div>
-      <h3 className="text-xl font-bold text-gray-900 mb-2">{title}</h3>
-      <p className="text-gray-600 mb-4">{description}</p>
-      <div className="flex items-center justify-between">
-        <span className="text-sm text-gray-500">{duration}</span>
-        <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-          Start Module
-          <ArrowRight size={16} />
-        </button>
-      </div>
-    </div>
-  );
+  const handleModuleStart = (moduleTitle: string) => {
+    setSelectedModule(moduleTitle);
+    // In a real app, this would navigate to the module content
+    alert(`Loading ${moduleTitle} module...`);
+  };
 
   const ServiceCard = ({ icon: Icon, title, description, features }) => (
     <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100">
@@ -103,6 +88,8 @@ const App = () => {
             description="Master the art of creating instant connections and trust with prospects through proven relationship-building techniques."
             level="Beginner"
             duration="2 hours"
+            progress={75}
+            onStart={() => handleModuleStart('Rapport Building')}
           />
           <TrainingModule
             icon={MessageSquare}
@@ -110,6 +97,8 @@ const App = () => {
             description="Transform objections into opportunities with strategic responses and confidence-building techniques."
             level="Intermediate"
             duration="3 hours"
+            progress={30}
+            onStart={() => handleModuleStart('Objection Handling')}
           />
           <TrainingModule
             icon={TrendingUp}
@@ -117,6 +106,9 @@ const App = () => {
             description="Stay ahead with current market insights, emerging technologies, and industry best practices."
             level="Beginner"
             duration="1.5 hours"
+            isCompleted={true}
+            progress={100}
+            onStart={() => handleModuleStart('Industry Trends')}
           />
           <TrainingModule
             icon={MessageSquare}
@@ -124,6 +116,7 @@ const App = () => {
             description="Develop powerful questioning strategies to uncover client needs and guide conversations effectively."
             level="Intermediate"
             duration="2.5 hours"
+            onStart={() => handleModuleStart('Asking Questions')}
           />
           <TrainingModule
             icon={Users}
@@ -131,6 +124,8 @@ const App = () => {
             description="Leverage social platforms for modern prospecting, relationship building, and thought leadership."
             level="Intermediate"
             duration="3 hours"
+            progress={15}
+            onStart={() => handleModuleStart('Social Media Selling')}
           />
           <TrainingModule
             icon={Ear}
@@ -138,6 +133,7 @@ const App = () => {
             description="Enhance your listening skills to better understand client needs and build stronger relationships."
             level="Beginner"
             duration="2 hours"
+            onStart={() => handleModuleStart('Active Listening')}
           />
           <TrainingModule
             icon={Search}
@@ -145,6 +141,7 @@ const App = () => {
             description="Learn systematic approaches to identify, qualify, and prioritize high-value prospects."
             level="Intermediate"
             duration="2.5 hours"
+            onStart={() => handleModuleStart('Lead Identification')}
           />
           <TrainingModule
             icon={Target}
@@ -152,6 +149,7 @@ const App = () => {
             description="Master frameworks for scoring and prioritizing leads to maximize conversion rates."
             level="Advanced"
             duration="2 hours"
+            onStart={() => handleModuleStart('Lead Prioritization')}
           />
           <TrainingModule
             icon={Presentation}
@@ -159,6 +157,8 @@ const App = () => {
             description="Craft compelling presentations that resonate with audiences and drive decision-making."
             level="Intermediate"
             duration="4 hours"
+            progress={60}
+            onStart={() => handleModuleStart('Sales Pitches')}
           />
           <TrainingModule
             icon={Users}
@@ -166,6 +166,7 @@ const App = () => {
             description="Build effective sales team dynamics and collaborative selling strategies."
             level="Advanced"
             duration="3 hours"
+            onStart={() => handleModuleStart('Team Collaboration')}
           />
           <TrainingModule
             icon={Award}
@@ -173,6 +174,7 @@ const App = () => {
             description="Master various closing techniques and overcome final purchase barriers confidently."
             level="Advanced"
             duration="3.5 hours"
+            onStart={() => handleModuleStart('Closing Sales')}
           />
         </div>
       </section>
@@ -510,7 +512,26 @@ const App = () => {
         <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
           Comprehensive collection of sales templates, training materials, and resources to help your team deliver compelling presentations and close more deals.
         </p>
+        <div className="mt-8">
+          <button
+            onClick={() => setShowPitchScript(!showPitchScript)}
+            className="px-8 py-4 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors font-semibold text-lg shadow-lg hover:shadow-xl"
+          >
+            {showPitchScript ? 'Hide Custom Pitch Script' : 'Generate Custom Pitch Script'}
+          </button>
+        </div>
       </section>
+
+      {/* Custom Pitch Script */}
+      {showPitchScript && (
+        <section className="px-6">
+          <SalesPitchScript
+            productService="AI Digital Marketing & Branding Services"
+            clientType="Mid-Market Technology Company"
+            industry="Technology"
+          />
+        </section>
+      )}
 
       {/* Pitch Templates */}
       <section className="px-6">
@@ -639,49 +660,29 @@ const App = () => {
         <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Training Videos</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-white p-8 rounded-xl shadow-lg">
-            <div className="aspect-video bg-gray-200 rounded-lg mb-6 flex items-center justify-center">
-              <Play className="text-gray-400" size={48} />
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-4">Mastering the Discovery Call</h3>
-            <p className="text-gray-600 mb-4">Learn how to conduct effective discovery calls that uncover client needs and build strong foundations for the sales process.</p>
-            <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold">
-              Watch Now
-            </button>
-          </div>
+          <VideoPlayer
+            title="Mastering the Discovery Call"
+            description="Learn how to conduct effective discovery calls that uncover client needs and build strong foundations for the sales process."
+            duration="18:45"
+          />
 
-          <div className="bg-white p-8 rounded-xl shadow-lg">
-            <div className="aspect-video bg-gray-200 rounded-lg mb-6 flex items-center justify-center">
-              <Play className="text-gray-400" size={48} />
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-4">Handling Difficult Objections</h3>
-            <p className="text-gray-600 mb-4">Real-world examples and role-playing scenarios to help you confidently address the most challenging client objections.</p>
-            <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold">
-              Watch Now
-            </button>
-          </div>
+          <VideoPlayer
+            title="Handling Difficult Objections"
+            description="Real-world examples and role-playing scenarios to help you confidently address the most challenging client objections."
+            duration="22:30"
+          />
 
-          <div className="bg-white p-8 rounded-xl shadow-lg">
-            <div className="aspect-video bg-gray-200 rounded-lg mb-6 flex items-center justify-center">
-              <Play className="text-gray-400" size={48} />
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-4">The Perfect Pitch Deck</h3>
-            <p className="text-gray-600 mb-4">Step-by-step guide to creating compelling presentations that resonate with prospects and drive decision-making.</p>
-            <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold">
-              Watch Now
-            </button>
-          </div>
+          <VideoPlayer
+            title="The Perfect Pitch Deck"
+            description="Step-by-step guide to creating compelling presentations that resonate with prospects and drive decision-making."
+            duration="25:15"
+          />
 
-          <div className="bg-white p-8 rounded-xl shadow-lg">
-            <div className="aspect-video bg-gray-200 rounded-lg mb-6 flex items-center justify-center">
-              <Play className="text-gray-400" size={48} />
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-4">Closing with Confidence</h3>
-            <p className="text-gray-600 mb-4">Advanced closing techniques and strategies to help you confidently ask for the sale and secure commitments.</p>
-            <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold">
-              Watch Now
-            </button>
-            </div>
+          <VideoPlayer
+            title="Closing with Confidence"
+            description="Advanced closing techniques and strategies to help you confidently ask for the sale and secure commitments."
+            duration="19:20"
+          />
         </div>
       </section>
 
